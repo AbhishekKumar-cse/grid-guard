@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -29,7 +30,10 @@ export default function Dashboard() {
     alerts: 7
   });
 
+  const [currentTime, setCurrentTime] = useState<string>('');
+
   useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString());
     const interval = setInterval(() => {
       setLiveStats(prev => ({
         ...prev,
@@ -37,6 +41,7 @@ export default function Dashboard() {
         generated: parseFloat((prev.generated + (Math.random() * 0.5 - 0.25)).toFixed(1)),
         distributed: parseFloat((prev.distributed + (Math.random() * 0.4 - 0.2)).toFixed(1)),
       }));
+      setCurrentTime(new Date().toLocaleTimeString());
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -55,7 +60,7 @@ export default function Dashboard() {
               <h1 className="text-3xl font-headline font-black tracking-tighter text-white">MISSION CONTROL DASHBOARD</h1>
               <div className="flex items-center gap-2 text-muted-foreground text-sm font-code">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                LIVE_DATA_STREAM :: {new Date().toLocaleTimeString()} :: ALL_INDIA_GRID
+                LIVE_DATA_STREAM :: {currentTime || 'CONNECTING...'} :: ALL_INDIA_GRID
               </div>
             </div>
             <div className="flex gap-3">

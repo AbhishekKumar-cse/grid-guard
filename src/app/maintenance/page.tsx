@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Sidebar from '@/components/layout/Sidebar';
 import { motion } from 'framer-motion';
@@ -22,6 +23,12 @@ import { cn } from '@/lib/utils';
 
 export default function MaintenancePage() {
   const [selectedTr, setSelectedTr] = useState<any>(null);
+  const [trendData, setTrendData] = useState<number[]>([]);
+
+  useEffect(() => {
+    // Prevent hydration mismatch by generating random heights only on the client
+    setTrendData(Array.from({ length: 30 }).map(() => 60 + Math.random() * 40));
+  }, []);
   
   return (
     <div className="min-h-screen bg-background">
@@ -140,9 +147,11 @@ export default function MaintenancePage() {
                        <BarChart2 size={20} className="text-primary" /> 30-DAY HEALTH TREND
                      </h4>
                      <div className="h-48 bg-white/5 rounded-xl border border-white/5 relative flex items-end p-4 gap-1">
-                        {Array.from({ length: 30 }).map((_, i) => (
-                          <div key={i} className="flex-1 bg-primary/20 hover:bg-primary transition-all rounded-t" style={{ height: `${60 + Math.random() * 40}%` }} />
-                        ))}
+                        {trendData.length > 0 ? trendData.map((h, i) => (
+                          <div key={i} className="flex-1 bg-primary/20 hover:bg-primary transition-all rounded-t" style={{ height: `${h}%` }} />
+                        )) : (
+                          <div className="w-full text-center text-xs text-muted-foreground">CALCULATING_TREND...</div>
+                        )}
                      </div>
                   </div>
                   <div className="space-y-6">
