@@ -14,10 +14,12 @@ import {
   Network,
   ChevronRight,
   TrendingUp,
-  Fingerprint
+  Fingerprint,
+  Activity
 } from 'lucide-react';
 import { MOCK_ALERTS } from '@/lib/mock-data';
 import { aiTheftEvidenceReport } from '@/ai/flows/ai-theft-evidence-report';
+import { cn } from '@/lib/utils';
 
 export default function TheftDetectionPage() {
   const [selectedCase, setSelectedCase] = useState<any>(null);

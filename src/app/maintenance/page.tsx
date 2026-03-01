@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { MOCK_TRANSFORMERS } from '@/lib/mock-data';
 import { aiPredictiveMaintenanceInsights } from '@/ai/flows/ai-predictive-maintenance-insights';
+import { cn } from '@/lib/utils';
 
 export default function MaintenancePage() {
   const [selectedTr, setSelectedTr] = useState<any>(null);

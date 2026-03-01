@@ -19,6 +19,7 @@ import {
   BarChart, Bar, Cell
 } from 'recharts';
 import { MOCK_ALERTS, MOCK_CHART_DATA } from '@/lib/mock-data';
+import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
   const [liveStats, setLiveStats] = useState({
