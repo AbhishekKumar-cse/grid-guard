@@ -15,6 +15,7 @@ import {
   ChevronRight,
   TrendingUp,
   Fingerprint,
+  Zap,
   Activity
 } from 'lucide-react';
 import { MOCK_ALERTS } from '@/lib/mock-data';

@@ -70,7 +70,7 @@ The application leverages specialized Genkit flows located in `src/ai/flows/`:
 3.  **Genkit Developer UI:**
     To test AI prompts and flows locally:
     ```bash
-    npm run genkit:dev
+     npm run genkit:dev
     ```
 
 ---
