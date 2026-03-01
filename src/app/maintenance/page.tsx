@@ -21,6 +21,17 @@ import { MOCK_TRANSFORMERS } from '@/lib/mock-data';
 import { aiPredictiveMaintenanceInsights } from '@/ai/flows/ai-predictive-maintenance-insights';
 import { cn } from '@/lib/utils';
 
+// Helper component to prevent hydration errors for dates
+function ClientDate({ date }: { date: string | null }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  
+  if (!mounted) return <span className="opacity-0">...</span>;
+  if (!date) return <span>N/A</span>;
+  
+  return <span>{new Date(date).toLocaleDateString()}</span>;
+}
+
 export default function MaintenancePage() {
   const [selectedTr, setSelectedTr] = useState<any>(null);
   const [trendData, setTrendData] = useState<number[]>([]);
@@ -108,7 +119,7 @@ export default function MaintenancePage() {
                          </span>
                        </td>
                        <td className="px-6 py-4 font-code text-xs">
-                          {tr.predictedFailureDate ? new Date(tr.predictedFailureDate).toLocaleDateString() : 'N/A'}
+                          <ClientDate date={tr.predictedFailureDate} />
                        </td>
                        <td className="px-6 py-4 text-right">
                          <button className="text-primary hover:underline text-xs font-bold">ANALYZE SENSORS</button>
@@ -127,7 +138,7 @@ export default function MaintenancePage() {
                  <div>
                    <h2 className="text-2xl font-headline font-bold text-white">LIVE_SENSOR_DIAGNOSTICS :: {selectedTr.id}</h2>
                    <div className="text-xs font-code text-muted-foreground flex items-center gap-2 mt-1">
-                     <Clock size={12} /> LAST UPDATED: {new Date().toLocaleTimeString()} :: ALL_SENSORS_STABLE
+                     <Clock size={12} /> LAST UPDATED: <ClientTime /> :: ALL_SENSORS_STABLE
                    </div>
                  </div>
                  <button onClick={() => setSelectedTr(null)} className="p-2 hover:bg-white/5 rounded-full">✕</button>
@@ -201,6 +212,14 @@ export default function MaintenancePage() {
       </main>
     </div>
   );
+}
+
+function ClientTime() {
+  const [time, setTime] = useState('');
+  useEffect(() => {
+    setTime(new Date().toLocaleTimeString());
+  }, []);
+  return <span>{time || '...'}</span>;
 }
 
 function MaintenanceStat({ label, value, sub, color }: any) {
